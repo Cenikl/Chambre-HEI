@@ -1,0 +1,536 @@
+openapi: 3.0.3
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  description: >-
+    This is a sample server
+  version: 1.0.11
+servers:
+  - url: https://petstore3.swagger.io/api/v3
+tags:
+  - name: Rooms
+    description: Everything about the rooms of the hotel
+  - name: Users
+    description: List the staff working at the hotel
+  - name: Customers
+    description: Information about customers
+paths:
+  /rooms:
+    put:
+      tags:
+        - Rooms
+      summary: Update an existing room
+      operationId: updateRoom
+      requestBody:
+        description: Update an existent room in the hotel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Room not found
+    get:
+      tags:
+        - Rooms
+      summary: Get all the rooms
+      operationId: getRoom
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+        '400':
+          description: Invalid request
+    post:
+      tags:
+        - Rooms
+      summary: Add a new room to the hotel
+      operationId: addRoom
+      requestBody:
+        description: Create a new room in the hotel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '405':
+          description: Invalid input
+  /rooms/{roomId}:
+    get:
+      tags:
+        - Rooms
+      summary: Get the room by Id
+      operationId: getRoomById
+      parameters:
+        - name: roomId
+          in: path
+          description: ID of room to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+        '400':
+          description: Invalid status value
+    delete:
+      tags:
+        - Rooms
+      summary: Delete room
+      operationId: deleteRoom
+      parameters:
+        - name: roomId
+          in: path
+          description: Put the id of the room to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid roomId supplied
+        '404':
+          description: Room not found
+  /rooms/status:
+    get:
+      tags:
+        - Rooms
+      summary: Get the rooms by the status
+      operationId: getRoomByStatus
+      parameters:
+        - name: status
+          in: query
+          description: Status values of the room 
+          required: false
+          explode: true
+          schema:
+            type: string
+            default: empty
+            enum:
+              - empty
+              - booked
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Room'
+        '400':
+          description: Invalid status value
+    put:
+      tags:
+        - Rooms
+      summary: Update room status
+      operationId: updateRoomStatus
+      parameters:
+        - name: status
+          in: path
+          description: status to change
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent room in the hotel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '400':
+          description: Invalid status supplied
+        '404':
+          description: Room not found
+  /employees: 
+    get:
+      tags:
+        - Users
+      summary: Get all the employees
+      operationId: getEmployees
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Staff'
+        '400':
+          description: Invalid status value
+    put:
+      tags:
+        - Users
+      summary: Create new employees or update existing employees
+      description: Update an employee if an id is given, otherwise create
+      operationId: putEmployees
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Staff'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/Staff'
+        '400':
+          description: Invalid status value
+        '403':
+          description: Acces denied
+        '404':
+          description: Employee not found
+        '500':
+          description: Error 500
+  /employees/{employeeID}:
+    get:
+      tags:
+        - Users
+      summary: Get all the employees by ID
+      operationId: getEmployeesById
+      parameters:
+        - name: employeeId
+          in: path
+          description: ID of employee to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Staff'
+        '400':
+          description: Invalid status value
+    delete:
+      tags:
+        - Users
+      summary: Delete employee
+      operationId: deleteEmployee
+      parameters:
+        - name: employeeId
+          in: path
+          description: Put the id of the employee to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid Id supplied
+        '404':
+          description: Employee not found
+  /managers:
+    get:
+      tags:
+        - Users
+      summary: Get all the managers
+      operationId: getManagers
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Staff'
+        '400':
+          description: Invalid status value
+    put:
+      tags:
+        - Users
+      summary: Create new managers or update existing managers
+      description: Update a manager if an id is given, otherwise create
+      operationId: putManagers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Staff'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/Staff'
+        '400':
+          description: Invalid status value
+        '403':
+          description: Acces denied
+        '404':
+          description: Employee not found
+        '500':
+          description: Error 500
+  /managers/{managerID}:
+    get:
+      tags:
+        - Users
+      summary: Get all the managers by ID
+      operationId: getManagersById
+      parameters:
+        - name: managerId
+          in: path
+          description: ID of manager to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Staff'
+        '400':
+          description: Invalid status value
+  /customers:
+    get:
+      tags:
+        - Customers
+      summary: Get all the customers
+      operationId: getCustomers
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid status value
+    post:
+      tags:
+        - Customers
+      summary: Add a new customer 
+      operationId: addCustomer
+      requestBody:
+        description: Create a new customer
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '405':
+          description: Invalid input
+  /customers/{customerId}:
+    get:
+      tags:
+        - Customers
+      summary: Get the customer by Id
+      operationId: getCustomersById
+      parameters:
+        - name: customerId
+          in: path
+          description: ID of customer to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid status value
+    delete:
+      tags:
+        - Customers
+      summary: Delete customer
+      operationId: deleteCustomer
+      parameters:
+        - name: customerId
+          in: path
+          description: Put the id of the employee to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid Id supplied
+        '404':
+          description: Customer not found 
+    patch:
+      tags:
+        - Customers
+      summary: Update customers inforamtion 
+      description: | 
+        Possible changes on:
+        * Room
+      operationId: updateCustomersInfo
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of the customer to change info
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update customer's info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
+            examples:
+                changeRoom:
+                  summary: Change the room          
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Room not found
+components:
+  schemas:
+    Room: 
+      type: object
+      properties:
+        id: 
+          type: string
+          description: Id of the room
+        number:
+          type: integer
+          format: int64
+          description: Number of the room
+          example: 1
+        Category:
+          type: string
+          description: Different types of rooms
+          example: normal
+          enum:
+            - normal
+            - vip
+        status: 
+          type: string
+          description: Actual status of the room
+          example: empty
+          enum:
+            - empty
+            - booked
+
+    Users:
+      type: object
+      properties:
+        id: 
+          type: string
+        first_Name:
+          type: string
+          example: "Cedric"
+        last_Name:
+          type: string
+          example: "Rakoto"
+        birth_date:
+          type: string
+          format: date
+          example: string 
+        phone:
+          type: string
+          example: 0347894583
+        sex: 
+          type: string
+          example: string
+          enum:
+            - Male
+            - Female
+        email:
+          type: string
+          example: string
+
+    Customer:
+      allOf:
+        - $ref: '#/components/schemas/Users'
+      type: object   
+      properties:
+        room:
+          $ref: '#/components/schemas/Room'
+
+    Staff: 
+      allOf:
+        - $ref: '#/components/schemas/Users'
+      type: object   
+      properties:
+        status:
+          type: string
+          description: Status of the employee
+          enum:
+            - Active
+            - Inactive
