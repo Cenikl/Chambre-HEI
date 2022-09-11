@@ -15,29 +15,6 @@ tags:
     description: Information about customers
 paths:
   /rooms:
-    put:
-      tags:
-        - Rooms
-      summary: Update an existing room
-      operationId: updateRoom
-      requestBody:
-        description: Update an existent room in the hotel
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Room'
-        required: true
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Room'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Room not found
     get:
       tags:
         - Rooms
@@ -75,7 +52,7 @@ paths:
                 $ref: '#/components/schemas/Room'
         '405':
           description: Invalid input
-  /rooms/{roomId}:
+  /room/{roomId}:
     get:
       tags:
         - Rooms
@@ -118,7 +95,37 @@ paths:
           description: Invalid roomId supplied
         '404':
           description: Room not found
-  /rooms/status:
+    patch:
+      tags:
+        - Rooms
+      summary: Update the status of a room in the hotel
+      operationId: updateRoom
+      parameters:
+        - name: roomId
+          in: path
+          description: Put the id of the room to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent room in the hotel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Room'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Room'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Room not found
+  /rooms/{status}:
     get:
       tags:
         - Rooms
@@ -147,36 +154,6 @@ paths:
                   $ref: '#/components/schemas/Room'
         '400':
           description: Invalid status value
-    put:
-      tags:
-        - Rooms
-      summary: Update room status
-      operationId: updateRoomStatus
-      parameters:
-        - name: status
-          in: path
-          description: status to change
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: Update an existent room in the hotel
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Room'
-        required: true
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Room'
-        '400':
-          description: Invalid status supplied
-        '404':
-          description: Room not found
   /employees: 
     get:
       tags:
@@ -221,7 +198,7 @@ paths:
         '400':
           description: Invalid status value
         '403':
-          description: Acces denied
+          description: Access denied
         '404':
           description: Employee not found
         '500':
@@ -313,7 +290,7 @@ paths:
         '400':
           description: Invalid status value
         '403':
-          description: Acces denied
+          description: Access denied
         '404':
           description: Employee not found
         '500':
@@ -426,7 +403,7 @@ paths:
     patch:
       tags:
         - Customers
-      summary: Update customers inforamtion 
+      summary: Update customers information
       description: | 
         Possible changes on:
         * Room
@@ -472,12 +449,13 @@ components:
           format: int64
           description: Number of the room
           example: 1
-        Category:
+        category:
           type: string
           description: Different types of rooms
           example: normal
           enum:
             - normal
+            - family
             - vip
         status: 
           type: string
@@ -486,7 +464,14 @@ components:
           enum:
             - empty
             - booked
-
+        price:
+          type: integer
+          description: Price of the room
+          example: 15000
+          enum:
+            - 15000
+            - 20000
+            - 25000
     Users:
       type: object
       properties:
@@ -497,7 +482,7 @@ components:
           example: "Cedric"
         last_Name:
           type: string
-          example: "Rakoto"
+          example: "Makoto"
         birth_date:
           type: string
           format: date
@@ -509,8 +494,8 @@ components:
           type: string
           example: string
           enum:
-            - Male
-            - Female
+            - male
+            - female
         email:
           type: string
           example: string
@@ -532,5 +517,5 @@ components:
           type: string
           description: Status of the employee
           enum:
-            - Active
-            - Inactive
+            - active
+            - inactive
