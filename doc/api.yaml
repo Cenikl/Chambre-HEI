@@ -490,8 +490,9 @@ components:
         - $ref: '#/components/schemas/Users'
       type: object   
       properties:
-        room:
-          $ref: '#/components/schemas/Room'
+        roomId:
+          type: string
+          example: string
     Staff: 
       allOf:
         - $ref: '#/components/schemas/Users'

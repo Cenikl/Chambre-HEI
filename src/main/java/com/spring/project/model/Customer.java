@@ -34,7 +34,7 @@ public class Customer implements Serializable {
     @Column(nullable = false,unique = true)
     private String email;
 
-    @OneToOne
-    @JoinColumn(name = "room",nullable = false)
-    private Room room;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "roomid",nullable = false,referencedColumnName = "id")
+    private Room roomId ;
 }
