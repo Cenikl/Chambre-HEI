@@ -34,6 +34,5 @@ public class Room implements Serializable {
     private RoomStatus status;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Price price;
+    private Integer price;
 }

@@ -26,15 +26,10 @@ public class Customer implements Serializable {
     @Column(nullable = false)
     private String last_name;
 
-    @Column(nullable = false)
-    private String birth_date;
 
     @Column(nullable = false)
     private String phone;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Gender sex;
 
     @Column(nullable = false,unique = true)
     private String email;

@@ -14,13 +14,21 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,"/").permitAll()
-                .antMatchers(HttpMethod.GET,"/manager/**").authenticated()
+                .antMatchers(HttpMethod.GET,"/rooms/**").permitAll()
+                .antMatchers(HttpMethod.DELETE,"/room/{roomId}").permitAll()
+                .antMatchers(HttpMethod.POST,"/room/").permitAll()
+                .antMatchers(HttpMethod.PATCH,"/room/{roomId}").permitAll()
+                .antMatchers(HttpMethod.GET,"/customers").authenticated()
+                .antMatchers(HttpMethod.GET,"/customers/*").authenticated()
+                .antMatchers(HttpMethod.DELETE,"/customers/*").authenticated()
+                .antMatchers(HttpMethod.POST,"/customers").permitAll()
+                .antMatchers(HttpMethod.PUT,"/customers/*").authenticated()
+                .antMatchers(HttpMethod.GET,"/employees").authenticated()
+                .antMatchers(HttpMethod.GET,"/employees/*").authenticated()
+                .antMatchers(HttpMethod.PUT,"/employees/*").authenticated()
+                .antMatchers(HttpMethod.GET,"/manager/**").denyAll()
+                .antMatchers(HttpMethod.PUT,"/manager/**").denyAll()
                 .and()
-                .formLogin()
-                .and()
-                .logout().permitAll()
-                .and()
-                .csrf().disable()
-                .httpBasic();
+                .csrf().disable();
     }
 }

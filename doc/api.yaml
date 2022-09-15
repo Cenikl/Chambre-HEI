@@ -468,10 +468,6 @@ components:
           type: integer
           description: Price of the room
           example: 15000
-          enum:
-            - 15000
-            - 20000
-            - 25000
     Users:
       type: object
       properties:
@@ -483,23 +479,12 @@ components:
         last_Name:
           type: string
           example: "Makoto"
-        birth_date:
-          type: string
-          format: date
-          example: string 
         phone:
           type: string
           example: 0347894583
-        sex: 
-          type: string
-          example: string
-          enum:
-            - male
-            - female
         email:
           type: string
           example: string
-
     Customer:
       allOf:
         - $ref: '#/components/schemas/Users'
@@ -507,12 +492,21 @@ components:
       properties:
         room:
           $ref: '#/components/schemas/Room'
-
     Staff: 
       allOf:
         - $ref: '#/components/schemas/Users'
       type: object   
       properties:
+        birth_date:
+          type: string
+          format: date
+          example: string
+        sex:
+          type: string
+          example: string
+          enum:
+            - male
+            - female
         status:
           type: string
           description: Status of the employee
