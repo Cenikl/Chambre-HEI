@@ -4,6 +4,7 @@ import com.spring.project.model.enumeration.Category;
 import com.spring.project.model.enumeration.Price;
 import com.spring.project.model.enumeration.RoomStatus;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,7 +20,8 @@ import java.io.Serializable;
 public class Room implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
 
     @Column(nullable = false)
